@@ -35,8 +35,6 @@ class AuthenticationBloc
       Emitter<AuthenticationState> emit,
       ) async {
     switch (event.status) {
-      case AuthenticationStatus.bioAuth:
-        return emit(const AuthenticationState.bioAuth());
       case AuthenticationStatus.unauthenticated:
         return emit(const AuthenticationState.unauthenticated());
       case AuthenticationStatus.authenticated:
@@ -51,5 +49,6 @@ class AuthenticationBloc
       Emitter<AuthenticationState> emit,
       ) {
     _authenticationRepository.logOut();
+    emit(const AuthenticationState.unauthenticated());
   }
 }

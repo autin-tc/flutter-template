@@ -28,3 +28,11 @@ class LoginPasswordChanged extends LoginEvent {
 class LoginSubmitted extends LoginEvent {
   const LoginSubmitted();
 }
+
+class ShowBioMetricDialog extends LoginEvent {
+  const ShowBioMetricDialog();
+}
+
+class Initial extends LoginEvent {
+  const Initial();
+}

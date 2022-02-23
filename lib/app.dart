@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plume/authentication/authentication.dart';
 import 'package:plume/packages/apiService/api_service.dart';
-import 'package:plume/pages/bioAuthPage/view/bio_auth_page.dart';
 import 'package:plume/pages/home/home.dart';
 import 'package:plume/pages/login/login.dart';
 import 'package:plume/repositories/authentication_repository.dart';
@@ -33,7 +32,7 @@ class App extends StatelessWidget {
             create: (_) => AuthenticationBloc(
               authenticationRepository: authenticationRepository,
             ),
-            child: AppView(),
+            child: const AppView(),
           ),
         ),
     );
@@ -55,6 +54,7 @@ class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: PlumeTheme.dartTheme,
       routes: RoutesBuilder.routes,
       navigatorKey: _navigatorKey,
@@ -71,12 +71,6 @@ class _AppViewState extends State<AppView> {
               case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
                   LoginPage.route(),
-                      (route) => false,
-                );
-                break;
-              case AuthenticationStatus.bioAuth:
-                _navigator.pushAndRemoveUntil<void>(
-                  BioAuthPage.route(),
                       (route) => false,
                 );
                 break;

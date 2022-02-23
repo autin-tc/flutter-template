@@ -13,4 +13,6 @@ class AuthenticationService {
   Future<CognitoUserSession?> signIn(String email, String password) => _client.signIn(email, password);
 
   Future<bool> isAuthenticated() => _client.isAuthenticated();
+
+  Future<void> signOut() => _client.signOut();
 }

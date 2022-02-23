@@ -44,6 +44,8 @@ class ConfirmBloc extends Bloc<ConfirmEvent, ConfirmState> {
           code: state.code.value,
         );
         await _authenticationRepository.logIn(email: userData.email, password: userData.password);
+        await _authenticationRepository.keyStorageService.setItem('plume_user_username', userData.email);
+        await _authenticationRepository.keyStorageService.setItem('plume_user_password', userData.password);
         emit(state.copyWith(status: FormzStatus.submissionSuccess));
       } catch (_) {
         emit(state.copyWith(status: FormzStatus.submissionFailure));

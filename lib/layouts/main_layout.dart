@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plume/authentication/authentication.dart';
 import 'package:plume/routes/routes.dart';
+import 'package:plume/utils/picture_builder.dart';
 import 'package:plume/widgets/drawer/plume_drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -62,7 +63,7 @@ class _MainLayoutState extends State<MainLayout> {
         title: GestureDetector(
           onTap: () => Navigator.of(context).pushNamedAndRemoveUntil(RoutesBuilder.home, (route) => false),
           // child: logo
-          child: SvgPicture.asset('assets/images/svg/logo.svg', width: 100,),
+          child: SvgPicture.asset(SvgBuilder.logo, width: 100,),
         ),
         centerTitle: true,
         actions: [
