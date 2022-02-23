@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plume/layouts/auth_layout.dart';
+import 'package:plume/packages/biometricsService/biometrics_service.dart';
 import 'package:plume/pages/login/login.dart';
 import 'package:plume/repositories/authentication_repository.dart';
 
@@ -19,8 +20,8 @@ class LoginPage extends StatelessWidget {
         child: BlocProvider(
           create: (context) {
             return LoginBloc(
-              authenticationRepository:
-              RepositoryProvider.of<AuthenticationRepository>(context),
+              authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context),
+              biometricService: BiometricsService(),
             );
           },
           child: const LoginForm(),

@@ -28,16 +28,6 @@ class SettingsState extends State<SettingsPage> {
     setBio();
   }
 
-  // @override
-  // void didChangeDependencies() async {
-  //   super.didChangeDependencies();
-  //   final isBioEnabled = await _storage.containsItem('bio');
-  //   setState(() {
-  //     bio = isBioEnabled ? true : false;
-  //   });
-  // }
-
-
   void onChanged(bool event) async {
     event ? await _storage.setItem('bio', 'true') : await _storage.deleteItem('bio');
 

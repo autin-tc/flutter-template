@@ -6,7 +6,7 @@ class PlumeDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
       child: Center(
         child: Column(
           children: <Widget>[
@@ -17,7 +17,6 @@ class PlumeDrawerHeader extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text('1 Pat', style: TextStyle(color: Colors.white)),
-            const SizedBox(height: 8),
             const Text('he/him', style: TextStyle(color: Colors.white60)),
             const Divider(
               thickness: 1,

@@ -5,4 +5,5 @@ abstract class AuthenticationClient {
   Future<bool> confirmation(String email, String code);
   Future<CognitoUserSession?> signIn(String email, String password);
   Future<bool> isAuthenticated();
+  Future<void> signOut();
 }

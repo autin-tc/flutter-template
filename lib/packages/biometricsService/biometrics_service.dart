@@ -9,9 +9,9 @@ class BiometricsService {
 
   Future<bool> authenticate() async {
     return await auth.authenticate(
-        localizedReason: 'Let OS determine authentication method',
+        localizedReason: 'Sign in Plume',
         useErrorDialogs: true,
-        stickyAuth: true
+        stickyAuth: false,
     );
   }
 }

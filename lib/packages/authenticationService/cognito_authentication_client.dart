@@ -39,8 +39,13 @@ class CognitoAuthenticationClient implements AuthenticationClient {
   }
   @override
   Future<bool> isAuthenticated() async {
-    return true;
+    final user = await _userPool.getCurrentUser();
+    return user != null ? true : false;
   }
 
-
+  @override
+  Future<void> signOut() async {
+    final user = await _userPool.getCurrentUser();
+    user != null ? await user.signOut() : null;
+  }
 }

@@ -14,18 +14,12 @@ class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
 
   Stream<AuthenticationStatus> get status async* {
-    await Future<void>.delayed(const Duration(seconds: 1));
-    final isBioEnabled = await keyStorageService.containsItem('bio');
     final isAuthenticated = await authService.isAuthenticated();
 
     if (isAuthenticated) {
       yield AuthenticationStatus.authenticated;
     } else {
-      if (isBioEnabled) {
-        yield AuthenticationStatus.authenticated;
-      } else {
-        yield AuthenticationStatus.authenticated;
-      }
+      yield AuthenticationStatus.unauthenticated;
     }
 
     yield* _controller.stream;
@@ -37,17 +31,16 @@ class AuthenticationRepository {
   }) async {
     final result = await authService.signIn(email, password);
     if (result != null) {
-      final String? accessToken = result.accessToken.jwtToken;
-      String? refreshToken = result.refreshToken?.token;
-      if (accessToken != null) {
-        keyStorageService.setItem('access_token', accessToken);
-      }
-      if (refreshToken != null) {
-        keyStorageService.setItem('refresh_token', refreshToken);
-      }
+      _controller.add(AuthenticationStatus.authenticated);
+      // final String? accessToken = result.accessToken.jwtToken;
+      // String? refreshToken = result.refreshToken?.token;
+      // if (accessToken != null) {
+      //   keyStorageService.setItem('access_token', accessToken);
+      // }
+      // if (refreshToken != null) {
+      //   keyStorageService.setItem('refresh_token', refreshToken);
+      // }
     }
-
-    _controller.add(AuthenticationStatus.authenticated);
   }
 
   Future<void> signUp({
@@ -65,6 +58,7 @@ class AuthenticationRepository {
   }
 
   Future<void> logOut() async {
+    await authService.signOut();
     final isBioAuthEnabled = await keyStorageService.containsItem('bio');
     isBioAuthEnabled
         ? _controller.add(AuthenticationStatus.bioAuth)
@@ -72,4 +66,8 @@ class AuthenticationRepository {
   }
 
   void dispose() => _controller.close();
+
+  FutureOr<bool> hasBiometrics() async {
+    return await keyStorageService.containsItem('bio');
+  }
 }

@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:plume/packages/biometricsService/biometrics_service.dart';
 import 'package:plume/pages/login/bloc/login_bloc.dart';
+import 'package:plume/pages/users/bloc/user_bloc.dart';
 import 'package:plume/routes/routes.dart';
+import 'package:plume/theme/plume_colors.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
+
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+
+  @override
+  void initState() {
+    context.read<LoginBloc>().add(const Initial());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +45,20 @@ class LoginForm extends StatelessWidget {
             const Padding(padding: EdgeInsets.all(16)),
             _LoginButton(),
             const Padding(padding: EdgeInsets.all(16)),
+            _BiometricButton(),
+            const Padding(padding: EdgeInsets.all(16)),
             GestureDetector(
-                onTap: () => Navigator.of(context).pushNamedAndRemoveUntil<void>(RoutesBuilder.signUp, (route) => false),
-                child: const Text(
-                  'Sign Up',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+              onTap: () => Navigator.of(context).pushNamedAndRemoveUntil<void>(RoutesBuilder.signUp, (route) => false),
+              child: const Text(
+                'Sign Up',
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
                     fontSize: 16,
-                  ),
+                    color: PlumeColors.primary
                 ),
               ),
+            ),
           ],
         ),
       ),
@@ -104,6 +122,22 @@ class _LoginButton extends StatelessWidget {
                     ? () => context.read<LoginBloc>().add(const LoginSubmitted())
                     : null,
         );
+      },
+    );
+  }
+}
+
+class _BiometricButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        return state.hasBiometric
+            ? GestureDetector(
+                onTap: () => context.read<LoginBloc>().add(const ShowBioMetricDialog()),
+                child: const Icon(Icons.fingerprint, size: 48.0),
+              )
+            :  const SizedBox(width: 0.0, height: 0.0);
       },
     );
   }
